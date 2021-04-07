@@ -131,7 +131,7 @@ am startservice --user 0 -n com.termux/com.termux.app.RunCommandService \
 
 ### Advance Examples
 
-Its probably wiser for apps to declare the [`termux-shared`] library as a dependency and import the [`TermuxConstants`] class and use the variables provided for actions and extras instead of using hardcoded extra key values.
+It's probably wiser for apps to declare the [`termux-shared`] library as a dependency and import the [`TermuxConstants`] class and use the variables provided for actions and extras instead of using hardcoded extra key values.
 
 If your app wants to receive termux session command results, then put the pending intent for your app like for an [IntentService](https://developer.android.com/reference/android/app/IntentService) in the `RUN_COMMAND_SERVICE.EXTRA_PENDING_INTENT` extra.
 
