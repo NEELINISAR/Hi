@@ -246,6 +246,13 @@ If your third-party app is targeting sdk `30` (android `11`), then it needs to a
 Check [package-visibility](https://developer.android.com/training/basics/intents/package-visibility#package-name), `QUERY_ALL_PACKAGES` [googleplay policy](https://support.google.com/googleplay/android-developer/answer/10158779) and this [article](https://medium.com/androiddevelopers/working-with-package-visibility-dc252829de2d) for more info.
 ##
 
+
+
+### Privacy
+
+If a third party app ran a termux command for a user, then it can get the session transcript back for the terminal session, and `stdout`/`stderr` for background commands using `PendingIntent`. Even with the dual `RUN_COMMAND` permission and `allow-external-app` requirement, this may not be something that the user wants, since it could give the 3rd party app access to private user data. So use this wisely. In future, a whitelist/blacklist may be implemented to give further control to the user for which app's can get the result back or show prompts before running commands. Although, the 3rd party app can still use physical files or intents inside the commands run to get the result back, but this can likely be solved by approving a script before its run each time or permanently by storing the script hash in an internal termux database.
+##
+
 [`TermuxConstants`]: https://github.com/termux/termux-app/tree/master/termux-shared/src/main/java/com/termux/shared/termux/TermuxConstants.java
 [`termux-shared`]: https://github.com/termux/termux-app/tree/master/termux-shared
 
