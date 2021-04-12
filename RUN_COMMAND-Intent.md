@@ -182,9 +182,13 @@ pluginResultsServiceIntent.putExtra(PluginResultsService.EXTRA_EXECUTION_ID, exe
 PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, executionId, pluginResultsServiceIntent, PendingIntent.FLAG_ONE_SHOT);
 intent.putExtra(RUN_COMMAND_SERVICE.EXTRA_PENDING_INTENT, pendingIntent);
 
-// Send command intent for execution
-Log.d(LOG_TAG, "Sending execution command with id " + executionId);
-startService(intent);
+try {
+    // Send command intent for execution
+    Log.d(LOG_TAG, "Sending execution command with id " + executionId);
+    startService(intent);
+} catch (Exception e) {
+    Log.e(LOG_TAG, "Failed to start execution command with id " + executionId + ": " + e.getMessage());
+}
 ```
 
 Define the `PluginResultsService` class which extends from `IntentService`.
@@ -239,10 +243,15 @@ public class PluginResultsService extends IntentService {
 }
 ```
 
-Declare `PluginResultsService` entry in `AndroidManifest.xml`
+Declare `com.termux.permission.RUN_COMMAND` permission and `PluginResultsService` service entry in `AndroidManifest.xml`
 
 ```xml
-<service android:name=".PluginResultsService" />
+<uses-permission android:name="com.termux.permission.RUN_COMMAND"  />
+
+<application
+	...
+    <service android:name=".PluginResultsService" />
+</application>
 ```
 ##
 
