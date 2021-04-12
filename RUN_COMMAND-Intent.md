@@ -243,7 +243,7 @@ public class PluginResultsService extends IntentService {
 }
 ```
 
-Declare `com.termux.permission.RUN_COMMAND` permission and `PluginResultsService` service entry in `AndroidManifest.xml`
+Declare `com.termux.permission.RUN_COMMAND` permission and `PluginResultsService` service entry in `AndroidManifest.xml`.
 
 ```xml
 <uses-permission android:name="com.termux.permission.RUN_COMMAND"  />
