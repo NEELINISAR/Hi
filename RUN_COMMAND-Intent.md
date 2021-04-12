@@ -56,7 +56,8 @@ The `RUN_COMMAND` intent expects the following extras that should contain the in
 The extra constant values are defined by [`TermuxConstants`] class of the [`termux-shared`](https://github.com/termux/termux-app/tree/master/termux-shared) library.
 
 - The `String` `RUN_COMMAND_SERVICE.EXTRA_COMMAND_PATH` extra for absolute path of command. (**mandatory**)  
-- The `String[]` `RUN_COMMAND_SERVICE.EXTRA_ARGUMENTS` extra for any arguments to pass to command.  
+- The `String[]` `RUN_COMMAND_SERVICE.EXTRA_ARGUMENTS` extra for arguments to the **executable** of the command (not `stdin` script).  
+- The `String` `RUN_COMMAND_SERVICE.EXTRA_STDIN` extra for `stdin` of the command.  
 - The `String` `RUN_COMMAND_SERVICE.EXTRA_WORKDIR` extra for current working directory of command. This defaults to `TermuxConstants.TERMUX_HOME_DIR_PATH`.  
 - The `boolean` `RUN_COMMAND_SERVICE.EXTRA_BACKGROUND` extra whether to run command in background or foreground terminal session. This defaults to `false`.  
 - The `String` `RUN_COMMAND_SERVICE.EXTRA_SESSION_ACTION` extra for for session action of foreground commands. This defaults to `TERMUX_SERVICE.VALUE_EXTRA_SESSION_ACTION_SWITCH_TO_NEW_SESSION_AND_OPEN_ACTIVITY`. *Requires Termux app version `>= 0.109`*.  
@@ -65,6 +66,9 @@ The extra constant values are defined by [`TermuxConstants`] class of the [`term
 - The markdown `String` `RUN_COMMAND_SERVICE.EXTRA_COMMAND_HELP` extra for help of the command. This can add details about the command. 3rd party apps can provide more info to users for setting up commands. Ideally a url link should be provided that goes into full details. *Requires Termux app version `>= 0.109`*.  
 - The `Parcelable` `RUN_COMMAND_SERVICE.EXTRA_PENDING_INTENT` extra containing the pending intent with which result of commands should be returned to the caller. The results will be sent in the `TERMUX_SERVICE.EXTRA_PLUGIN_RESULT_BUNDLE` bundle. This is optional and only needed if caller wants the results back. *Requires Termux app version `>= 0.109`*.  
 
+
+
+The `RUN_COMMAND_SERVICE.EXTRA_STDIN` can be used to pass a script or other data via `stdin` to the executable, like `bash` or `python`.
 
 The `RUN_COMMAND_SERVICE.EXTRA_COMMAND_PATH` and `RUN_COMMAND_SERVICE.EXTRA_WORKDIR` can optionally be prefixed with `$PREFIX/` or `~/` if an absolute path is not to be given. The `$PREFIX/` will expand to `TermuxConstants.TERMUX_PREFIX_DIR_PATH` and `~/` will expand to `TermuxConstants.TERMUX_HOME_DIR_PATH`.
 
