@@ -2,7 +2,7 @@
 
 Since `0.95` (Android 7), third-party apps that are not part of Termux world can run commands in Termux app context by either sending an intent to `RunCommandService` or becoming a plugin host for the `termux-tasker` plugin client.
 
-The intent can either be sent with `am startservice` command or with Java. Getting command result back is also possible for intents sent with Java, but not possible with `am startservice` command and it will require Termux app version `>= 0.109`.
+The intent can either be sent with `am startservice` command or with Java. Getting command result back is also possible for intents sent with Java, but not possible with `am startservice` command and it will require Termux app version [`>= 0.109`].
 
 You may also want to check out `termux-tasker` [README](https://github.com/termux/termux-tasker) (available for android 5+).
 
@@ -84,7 +84,7 @@ of failure in a popup. The popup shown is in [commonmark-spec](https://commonmar
 
 ### RUN_COMMAND Intent Result Extras
 
-Requires Termux app version `>= 0.109`.
+Requires Termux app version [`>= 0.109`].
 
 The `RUN_COMMAND` intent returns the following extras in the `TERMUX_SERVICE.EXTRA_PLUGIN_RESULT_BUNDLE` [Bundle](https://developer.android.com/reference/android/os/Bundle) if a pending intent is sent by the caller in the [Parcelable](https://developer.android.com/reference/android/os/Parcelable) `RUN_COMMAND_SERVICE.EXTRA_PENDING_INTENT` extra. Getting result of commands back is not possible for intents sent with `am startservice` command and so Java should be used for that case.
 
@@ -280,4 +280,5 @@ If a third party app ran a termux command for a user, then it can get the sessio
 
 [`TermuxConstants`]: https://github.com/termux/termux-app/tree/master/termux-shared/src/main/java/com/termux/shared/termux/TermuxConstants.java
 [`termux-shared`]: https://github.com/termux/termux-app/tree/master/termux-shared
+[`>= 0.109`]: https://github.com/termux/termux-app/releases/tag/v0.109
 
