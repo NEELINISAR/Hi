@@ -6,6 +6,9 @@ The intent can either be sent with `am startservice` command or with Java. Getti
 
 You may also want to check out `termux-tasker` [README](https://github.com/termux/termux-tasker) (available for android 5+).
 
+The [Tasker](https://tasker.joaoapps.com/) app comes with native support for this with basic command extras with the `TermuxCommand()` function in `Tasker Function` action. You can also use `am` command with the `Run Shell` action.
+
+
 
 ### Setup Instructions
 
