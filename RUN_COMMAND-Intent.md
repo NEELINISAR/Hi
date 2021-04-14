@@ -16,7 +16,7 @@ The [Tasker](https://tasker.joaoapps.com/) app comes with native support for thi
 - [RUN_COMMAND Intent Result Extras](#RUN_COMMAND-Intent-Result-Extras)
 - [Basic Examples](#Basic-Examples)
 - [Advance Examples](#Advance-Examples)
-- [Target SDK `30` Package Visibility](#Target-SDK-`30`-Package-Visibility)
+- [Target SDK `30` Package Visibility](#target-sdk-30-package-visibility)
 - [Privacy](#Privacy)
 ##
 
