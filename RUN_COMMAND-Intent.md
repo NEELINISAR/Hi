@@ -10,6 +10,18 @@ The [Tasker](https://tasker.joaoapps.com/) app comes with native support for thi
 
 
 
+### Contents
+- [Setup Instructions](#Setup-Instructions)
+- [RUN_COMMAND Intent Command Extras](#RUN_COMMAND-Intent-Command-Extras)
+- [RUN_COMMAND Intent Result Extras](#RUN_COMMAND-Intent-Result-Extras)
+- [Basic Examples](#Basic-Examples)
+- [Advance Examples](#Advance-Examples)
+- [Target SDK `30` Package Visibility](#Target-SDK-`30`-Package-Visibility)
+- [Privacy](#Privacy)
+##
+
+
+
 ### Setup Instructions
 
 #### `com.termux.permission.RUN_COMMAND` permission (Mandatory)
@@ -135,20 +147,51 @@ am startservice --user 0 -n com.termux/com.termux.app.RunCommandService \
 --ez com.termux.RUN_COMMAND_BACKGROUND 'false' \
 --es com.termux.RUN_COMMAND_SESSION_ACTION '0'
 ```
+##
+
+
 
 ### Advance Examples
 
 It's probably wiser for apps to declare the [`termux-shared`] library as a dependency and import the [`TermuxConstants`] class and use the variables provided for actions and extras instead of using hardcoded extra key values.
 
-If your app wants to receive termux session command results, then put the pending intent for your app like for an [IntentService](https://developer.android.com/reference/android/app/IntentService) in the `RUN_COMMAND_SERVICE.EXTRA_PENDING_INTENT` extra.
+Since, `termux-shared` is hosted a [Github Package](https://docs.github.com/en/packages/guides/package-client-guides-for-github-packages), you need add its maven repository to `build.gradle`. You also need a github access token to download packages. You can create it from your github account from `Settings` -> `Developer settings` -> `Personal access tokens` -> `Generate new token`. You must enable the `read:packages` scope when creating the token. You can get more details at [AndroidLibraryForGitHubPackagesDemo](https://github.com/enefce/AndroidLibraryForGitHubPackagesDemo).
 
-Include the [`termux-shared`] library as a dependency in the `build.gradle` file.
+Create `github.properties` file at project **root** directory, and set your username and token. Also optionally add the `github.properties
+` entry to `.gitignore` so that your token doesn't get added to `git`.
 
 ```
-implementation 'com.termux:termux-shared:0.109'
+GH_USERNAME=<username>
+GH_TOKEN=<token>
+```
+
+Include the [`termux-shared`] library as a dependency in the **app** level `app/build.gradle` file.
+
+```
+def githubProperties = new Properties()
+githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+
+dependencies {
+    implementation 'com.termux:termux-shared:0.109'
+}
+
+repositories {
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/termux/termux-app")
+
+        credentials {
+            username = githubProperties['GH_USERNAME'] ?: System.getenv("GH_USERNAME")
+            password = githubProperties['GH_TOKEN'] ?: System.getenv("GH_TOKEN")
+        }
+    }
+}
 ```
 
 Define the `RUN_COMMAND` intent sender code.
+
+If your app wants to receive termux session command results, then put the pending intent for your app like for an [IntentService](https://developer.android.com/reference/android/app/IntentService) in the `RUN_COMMAND_SERVICE.EXTRA_PENDING_INTENT` extra.
+
 
 ```java
 import com.termux.shared.termux.TermuxConstants;
@@ -256,7 +299,7 @@ Declare `com.termux.permission.RUN_COMMAND` permission and `PluginResultsService
 <uses-permission android:name="com.termux.permission.RUN_COMMAND"  />
 
 <application
-	...
+    ...
     <service android:name=".PluginResultsService" />
 </application>
 ```
@@ -264,7 +307,7 @@ Declare `com.termux.permission.RUN_COMMAND` permission and `PluginResultsService
 
 
 
-### Package Visibility
+### Target SDK `30` Package Visibility
 
 If your third-party app is targeting sdk `30` (android `11`), then it needs to add `com.termux` package to the `queries` element or request `QUERY_ALL_PACKAGES` permission in its `AndroidManifest.xml`. Otherwise it will get `PackageSetting{...... com.termux/......} BLOCKED` errors in `logcat` and `RUN_COMMAND` won't work.
 
