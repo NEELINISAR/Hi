@@ -158,7 +158,7 @@ It's probably wiser for apps to declare the [`termux-shared`] library as a depen
 Since, `termux-shared` is hosted a [Github Package](https://docs.github.com/en/packages/guides/package-client-guides-for-github-packages), you need add its maven repository to `build.gradle`. You also need a github access token to download packages. You can create it from your github account from `Settings` -> `Developer settings` -> `Personal access tokens` -> `Generate new token`. You must enable the `read:packages` scope when creating the token. You can get more details at [AndroidLibraryForGitHubPackagesDemo](https://github.com/enefce/AndroidLibraryForGitHubPackagesDemo).
 
 Create `github.properties` file at project **root** directory, and set your username and token. Also optionally add the `github.properties
-` entry to `.gitignore` so that your token doesn't get added to `git`.
+` entry to `.gitignore` file so that your token doesn't accidentally get added to `git`.
 
 ```
 GH_USERNAME=<username>
@@ -190,7 +190,7 @@ repositories {
 
 Define the `RUN_COMMAND` intent sender code.
 
-If your app wants to receive termux session command results, then put the pending intent for your app like for an [IntentService](https://developer.android.com/reference/android/app/IntentService) in the `RUN_COMMAND_SERVICE.EXTRA_PENDING_INTENT` extra.
+If your app wants to receive termux command results, then put the pending intent for your app like for an [IntentService](https://developer.android.com/reference/android/app/IntentService) in the `RUN_COMMAND_SERVICE.EXTRA_PENDING_INTENT` extra.
 
 
 ```java
