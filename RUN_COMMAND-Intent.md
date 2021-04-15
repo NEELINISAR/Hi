@@ -172,7 +172,7 @@ def githubProperties = new Properties()
 githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
 
 dependencies {
-    implementation 'com.termux:termux-shared:0.109'
+    implementation 'com.termux:termux-shared:0.110'
 }
 
 repositories {
