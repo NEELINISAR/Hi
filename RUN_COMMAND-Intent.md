@@ -1,10 +1,10 @@
 ## RUN_COMMAND Intent
 
-Since `0.95` (Android 7), third-party apps that are not part of Termux world can run commands in Termux app context by either sending an intent to `RunCommandService` or becoming a plugin host for the `termux-tasker` plugin client.
+Since `0.95`, third-party apps that are not part of Termux world can run commands in Termux app context by either sending an intent to `RunCommandService` or becoming a plugin host for the `termux-tasker` plugin client.
 
 The intent can either be sent with `am startservice` command or with Java. Getting command result back is also possible for intents sent with Java, but not possible with `am startservice` command and it will require Termux app version [`>= 0.109`].
 
-You may also want to check out `termux-tasker` [README](https://github.com/termux/termux-tasker) (available for android 5+).
+You may also want to check out `termux-tasker` [README](https://github.com/termux/termux-tasker).
 
 The [Tasker](https://tasker.joaoapps.com/) app comes with native support for this with basic command extras with the `TermuxCommand()` function in `Tasker Function` action. You can also use `am` command with the `Run Shell` action.
 
