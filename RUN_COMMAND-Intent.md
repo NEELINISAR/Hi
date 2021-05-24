@@ -72,7 +72,7 @@ The extra constant values are defined by [`TermuxConstants`] class of the [`term
 
 - The `String` `RUN_COMMAND_SERVICE.EXTRA_COMMAND_PATH` extra for absolute path of command. (**mandatory**)  
 - The `String[]` `RUN_COMMAND_SERVICE.EXTRA_ARGUMENTS` extra for arguments to the **executable** of the command (not `stdin` script).  
-- The `String` `RUN_COMMAND_SERVICE.EXTRA_STDIN` extra for `stdin` of the command.  
+- The `String` `RUN_COMMAND_SERVICE.EXTRA_STDIN` extra for `stdin` of the command. *Requires Termux app version `>= 0.109`*.  
 - The `String` `RUN_COMMAND_SERVICE.EXTRA_WORKDIR` extra for current working directory of command. This defaults to `TermuxConstants.TERMUX_HOME_DIR_PATH`.  
 - The `boolean` `RUN_COMMAND_SERVICE.EXTRA_BACKGROUND` extra whether to run command in background or foreground terminal session. This defaults to `false`.  
 - The `String` `RUN_COMMAND_SERVICE.EXTRA_SESSION_ACTION` extra for for session action of foreground commands. This defaults to `TERMUX_SERVICE.VALUE_EXTRA_SESSION_ACTION_SWITCH_TO_NEW_SESSION_AND_OPEN_ACTIVITY`. *Requires Termux app version `>= 0.109`*.  
