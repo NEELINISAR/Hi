@@ -3,7 +3,7 @@
 ### Contents
 - [Importing Libraries](#importing-libraries)
 	- [Importing Libraries From Jitpack](#jitpack)
-	- [Importing Libraries From Github](#github)
+	- [Importing Libraries From Github Packages](#github-packages)
 - [Target SDK `30` Package Visibility](#target-sdk-30-package-visibility)
 - [Forking and Local Development](#forking-and-local-development)
 ##
