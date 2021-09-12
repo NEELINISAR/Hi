@@ -8,6 +8,10 @@ You may also want to check out `termux-tasker` [README](https://github.com/termu
 
 The [Tasker](https://tasker.joaoapps.com/) app comes with native support for this with basic command extras with the `TermuxCommand()` function in `Tasker Function` action. You can also use `am` command with the `Run Shell` action.
 
+It's probably wiser for third-party apps to declare the [`termux-shared`] library as a dependency and import the [`TermuxConstants`] class and use the variables provided for actions and extras instead of using hardcoded extra key values. Check [Termux Libraries](https://github.com/termux/termux-app/wiki/Termux-Libraries) for import instructions.
+
+If your third-party app has set `targetSdkVersion` to `>=30` (android `>= 11`), then check [Target SDK `30` Package Visibility](https://github.com/termux/termux-app/wiki/Termux-Libraries#target-sdk-30-package-visibility), otherwise you `RUN_COMMAND` intent will **not work**.
+
 
 
 ### Contents
@@ -16,7 +20,6 @@ The [Tasker](https://tasker.joaoapps.com/) app comes with native support for thi
 - [RUN_COMMAND Intent Result Extras](#RUN_COMMAND-Intent-Result-Extras)
 - [Basic Examples](#Basic-Examples)
 - [Advance Examples](#Advance-Examples)
-- [Target SDK `30` Package Visibility](#target-sdk-30-package-visibility)
 - [Privacy](#Privacy)
 ##
 
@@ -68,19 +71,22 @@ Some devices kill apps aggressively or prevent apps from starting from backgroun
 
 The `RUN_COMMAND` intent expects the following extras that should contain the info of the command to be executed.
 
-The extra constant values are defined by [`TermuxConstants`] class of the [`termux-shared`](https://github.com/termux/termux-app/tree/master/termux-shared) library.
+The extra constant values are defined by [`TermuxConstants`] class of the [`termux-shared`] library.
 
 - The `String` `RUN_COMMAND_SERVICE.EXTRA_COMMAND_PATH` extra for absolute path of command. (**mandatory**)  
 - The `String[]` `RUN_COMMAND_SERVICE.EXTRA_ARGUMENTS` extra for arguments to the **executable** of the command (not `stdin` script).  
+- The `boolean` `RUN_COMMAND_SERVICE.EXTRA_REPLACE_COMMA_ALTERNATIVE_CHARS_IN_ARGUMENTS` extra whether to for whether to replace comma alternative characters in arguments with comma characters. This defaults to `false`. Check [2aafcf84](https://github.com/termux/termux-app/commit/2aafcf84) for details. *Requires Termux app version `>= 0.115`*.  
+- The `String` `RUN_COMMAND_SERVICE.EXTRA_COMMA_ALTERNATIVE_CHARS_IN_ARGUMENTS` extra for the comma alternative characters in arguments that should be replaced instead of the default alternate comma character `(U+201A, &sbquo;, &#8218;, single low-9 quotation mark)`. *Requires Termux app version `>= 0.115`*.  
 - The `String` `RUN_COMMAND_SERVICE.EXTRA_STDIN` extra for `stdin` of the command. *Requires Termux app version `>= 0.109`*.  
 - The `String` `RUN_COMMAND_SERVICE.EXTRA_WORKDIR` extra for current working directory of command. This defaults to `TermuxConstants.TERMUX_HOME_DIR_PATH`.  
 - The `boolean` `RUN_COMMAND_SERVICE.EXTRA_BACKGROUND` extra whether to run command in background or foreground terminal session. This defaults to `false`.  
-- The `String` `RUN_COMMAND_SERVICE.EXTRA_SESSION_ACTION` extra for for session action of foreground commands. This defaults to `TERMUX_SERVICE.VALUE_EXTRA_SESSION_ACTION_SWITCH_TO_NEW_SESSION_AND_OPEN_ACTIVITY`. *Requires Termux app version `>= 0.109`*.  
+- The `String` `RUN_COMMAND_SERVICE.EXTRA_BACKGROUND_CUSTOM_LOG_LEVEL` extra for custom log level for background commands that should be used by Termux. Check [Custom Log Level](https://github.com/termux/termux-tasker#custom-log-level) and [60f37bde](https://github.com/termux/termux-app/commit/60f37bde) for details. *Requires Termux app version `>= 0.118`*.  
+- The `String` `RUN_COMMAND_SERVICE.EXTRA_SESSION_ACTION` extra for session action of foreground commands. This defaults to `TERMUX_SERVICE.VALUE_EXTRA_SESSION_ACTION_SWITCH_TO_NEW_SESSION_AND_OPEN_ACTIVITY`. *Requires Termux app version `>= 0.109`*.  
 - The `String` `RUN_COMMAND_SERVICE.EXTRA_COMMAND_LABEL` extra for label of the command. *Requires Termux app version `>= 0.109`*.  
 - The markdown `String` `RUN_COMMAND_SERVICE.EXTRA_COMMAND_DESCRIPTION` extra for description of the command. This should ideally be get short. *Requires Termux app version `>= 0.109`*.  
 - The markdown `String` `RUN_COMMAND_SERVICE.EXTRA_COMMAND_HELP` extra for help of the command. This can add details about the command. 3rd party apps can provide more info to users for setting up commands. Ideally a url link should be provided that goes into full details. *Requires Termux app version `>= 0.109`*.  
 - The `Parcelable` `RUN_COMMAND_SERVICE.EXTRA_PENDING_INTENT` extra containing the pending intent with which result of commands should be returned to the caller. The results will be sent in the `TERMUX_SERVICE.EXTRA_PLUGIN_RESULT_BUNDLE` bundle. This is optional and only needed if caller wants the results back. *Requires Termux app version `>= 0.109`*.  
-
+- The `String` `RUN_COMMAND_SERVICE.EXTRA_RESULT_DIRECTORY` extra for the directory path in which to write the result of the execution command for the caller. Check [2aafcf84](https://github.com/termux/termux-app/commit/2aafcf84) for additional sub extras and how this works. *Requires Termux app version `>= 0.115`*.  
 
 
 The `RUN_COMMAND_SERVICE.EXTRA_STDIN` can be used to pass a script or other data via `stdin` to the executable, like `bash` or `python`.
@@ -88,8 +94,7 @@ The `RUN_COMMAND_SERVICE.EXTRA_STDIN` can be used to pass a script or other data
 The `RUN_COMMAND_SERVICE.EXTRA_COMMAND_PATH` and `RUN_COMMAND_SERVICE.EXTRA_WORKDIR` can optionally be prefixed with `$PREFIX/` or `~/` if an absolute path is not to be given. The `$PREFIX/` will expand to `TermuxConstants.TERMUX_PREFIX_DIR_PATH` and `~/` will expand to `TermuxConstants.TERMUX_HOME_DIR_PATH`.
 
 
-The `EXTRA_COMMAND_*` extras are used for logging and their values are provided to users in case
-of failure in a popup. The popup shown is in [commonmark-spec](https://commonmark.org/) markdown using [markwon](https://github.com/noties/Markwon) library so make sure to follow its formatting rules. Also make sure to end lines with 2 blank spaces to prevent word-wrap wherever needed. It's the users and 3rd party apps responsibility to use them wisely. There are also android internal intent size limits (roughly `500KB`) that must not exceed when sending intents so make sure the combined size of ALL extras is less than that. There are also limits on the arguments size you can pass to commands or the full command string length that can be run, which is likely equal to `131072` bytes or `128KB` on an android device. Check [Arguments and Result Data Limits](https://github.com/termux/termux-tasker#arguments-and-result-data-limits) for more details.
+The `EXTRA_COMMAND_*` extras are used for logging and their values are provided to users in case of failure in a popup. The popup shown is in [commonmark-spec](https://commonmark.org/) markdown using [markwon](https://github.com/noties/Markwon) library so make sure to follow its formatting rules. Also make sure to end lines with 2 blank spaces to prevent word-wrap wherever needed. It's the users and 3rd party apps responsibility to use them wisely. There are also android internal intent size limits (roughly `500KB`) that must not exceed when sending intents so make sure the combined size of ALL extras is less than that. There are also limits on the arguments size you can pass to commands or the full command string length that can be run, which is likely equal to `131072` bytes or `128KB` on an android device. Check [Arguments and Result Data Limits](https://github.com/termux/termux-tasker#arguments-and-result-data-limits) for more details.
 ##
 
 
@@ -152,41 +157,6 @@ am startservice --user 0 -n com.termux/com.termux.app.RunCommandService \
 
 
 ### Advance Examples
-
-It's probably wiser for apps to declare the [`termux-shared`] library as a dependency and import the [`TermuxConstants`] class and use the variables provided for actions and extras instead of using hardcoded extra key values.
-
-Since, `termux-shared` is hosted a [Github Package](https://docs.github.com/en/packages/guides/package-client-guides-for-github-packages), you need add its maven repository to `build.gradle`. You also need a github access token to download packages. You can create it from your github account from `Settings` -> `Developer settings` -> `Personal access tokens` -> `Generate new token`. You must enable the `read:packages` scope when creating the token. You can get more details at [AndroidLibraryForGitHubPackagesDemo](https://github.com/enefce/AndroidLibraryForGitHubPackagesDemo).
-
-Create `github.properties` file at project **root** directory, and set your username and token. Also optionally add the `github.properties
-` entry to `.gitignore` file so that your token doesn't accidentally get added to `git`.
-
-```
-GH_USERNAME=<username>
-GH_TOKEN=<token>
-```
-
-Include the [`termux-shared`] library as a dependency in the **app** level `app/build.gradle` file.
-
-```
-def githubProperties = new Properties()
-githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
-
-dependencies {
-    implementation 'com.termux:termux-shared:0.110'
-}
-
-repositories {
-    maven {
-        name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/termux/termux-app")
-
-        credentials {
-            username = githubProperties['GH_USERNAME'] ?: System.getenv("GH_USERNAME")
-            password = githubProperties['GH_TOKEN'] ?: System.getenv("GH_TOKEN")
-        }
-    }
-}
-```
 
 Define the `RUN_COMMAND` intent sender code.
 
@@ -307,21 +277,12 @@ Declare `com.termux.permission.RUN_COMMAND` permission and `PluginResultsService
 
 
 
-### Target SDK `30` Package Visibility
-
-If your third-party app is targeting sdk `30` (android `11`), then it needs to add `com.termux` package to the `queries` element or request `QUERY_ALL_PACKAGES` permission in its `AndroidManifest.xml`. Otherwise it will get `PackageSetting{...... com.termux/......} BLOCKED` errors in `logcat` and `RUN_COMMAND` won't work.
-
-Check [package-visibility](https://developer.android.com/training/basics/intents/package-visibility#package-name), `QUERY_ALL_PACKAGES` [googleplay policy](https://support.google.com/googleplay/android-developer/answer/10158779) and this [article](https://medium.com/androiddevelopers/working-with-package-visibility-dc252829de2d) for more info.
-##
-
-
-
 ### Privacy
 
 If a third party app ran a termux command for a user, then it can get the session transcript back for the terminal session, and `stdout`/`stderr` for background commands using `PendingIntent`. Even with the dual `RUN_COMMAND` permission and `allow-external-app` requirement, this may not be something that the user wants, since it could give the 3rd party app access to private user data. So use this wisely. In future, a whitelist/blacklist may be implemented to give further control to the user for which app's can get the result back or show prompts before running commands. Although, the 3rd party app can still use physical files or intents inside the commands run to get the result back, but this can likely be solved by approving a script before its run each time or permanently by storing the script hash in an internal termux database.
 ##
 
-[`TermuxConstants`]: https://github.com/termux/termux-app/tree/master/termux-shared/src/main/java/com/termux/shared/termux/TermuxConstants.java
 [`termux-shared`]: https://github.com/termux/termux-app/tree/master/termux-shared
 [`>= 0.109`]: https://github.com/termux/termux-app/releases/tag/v0.109
+[`TermuxConstants`]: https://github.com/termux/termux-app/tree/master/termux-shared/src/main/java/com/termux/shared/termux/TermuxConstants.java
 
