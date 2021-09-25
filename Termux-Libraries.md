@@ -137,6 +137,10 @@ If your third-party app has set `targetSdkVersion` to `>=30` (android `>= 11`), 
     <queries>
         <package android:name="com.termux" />
    </queries>
+
+   <application
+       ....
+   </application>
 </manifest>
 ```
 
