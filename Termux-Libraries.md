@@ -81,6 +81,21 @@ Check https://github.com/jitpack/jitpack.io#building-with-jitpack for details, l
 - `implementation 'com.termux.termux-app:terminal-view:0.117'`
 ##
 
+##### Manual jar/aar Files Download
+
+The builds logs at https://jitpack.io/#termux/termux-app will list the paths for the files generated at the end under `Files:` section. You can append those paths to "https://jitpack.io/" to download a specific file.
+
+##### [`termux-shared`]
+
+- https://jitpack.io/com/github/termux/termux-app/termux-shared/v0.117/termux-shared-v0.117-sources.jar
+- https://jitpack.io/com/github/termux/termux-app/termux-shared/v0.117/termux-shared-v0.117.aar
+
+##### [`terminal-view`]
+
+- https://jitpack.io/com/github/termux/termux-app/terminal-view/v0.117/terminal-view-v0.117-sources.jar
+- https://jitpack.io/com/github/termux/termux-app/terminal-view/v0.117/terminal-view-v0.117.aar
+##
+
 
 
 #### Github Packages
