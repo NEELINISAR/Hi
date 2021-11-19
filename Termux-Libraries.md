@@ -4,6 +4,7 @@
 - [Importing Libraries](#importing-libraries)
 	- [Importing Libraries From Jitpack](#jitpack)
 	- [Importing Libraries From Github Packages](#github-packages)
+- [ Remove Extra Dependency Files](#remove-extra-dependency-files)
 - [Target SDK `30` Package Visibility](#target-sdk-30-package-visibility)
 - [Forking and Local Development](#forking-and-local-development)
 ##
@@ -140,6 +141,21 @@ repositories {
 }
 ```
 ##
+
+
+
+### Remove Extra Dependency Files
+
+If you don't plan on running any `TerminalSessions`/`TermuxSessions`, then remove its `JNI` lib dependencies from `APK` file during build time as well.
+
+```
+android {
+    packagingOptions {
+        // Remove terminal-emulator JNI libs added via termux-shared dependency
+        exclude 'lib/*/libtermux.so'
+    }
+}
+```
 
 
 
