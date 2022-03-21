@@ -66,6 +66,8 @@ You can confirm by running `dig txt git.termux.com` and should get something lik
 git.termux.com.		300	IN	TXT	"https://github.com/termux"
 ```
 
+Note that `com.termux` and `com.termux.github` have different builds artificats/logs and one may fail while the other may not. For example https://jitpack.io/com/termux/termux-app/5e820ad249/build.log and https://jitpack.io/com/github/termux/termux-app/5e820ad249/build.log have former failed. Currently, deleting a build for rebuilding after signing into jitpack from a termux org user account does not delete the `com.termux` variant.
+
 ##### Example imports
 
 Check https://github.com/jitpack/jitpack.io#building-with-jitpack for details, like including commit or branch level import.
