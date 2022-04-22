@@ -148,13 +148,17 @@ repositories {
 
 ### Remove Extra Dependency Files
 
-If you don't plan on running any `TerminalSessions`/`TermuxSessions`, then remove its `JNI` lib dependencies from `APK` file during build time as well.
+If you don't plan on using the following specific classes in your app, then remove their `JNI` lib dependency from `APK` file during build time as well.
+
+- `libtermux.so`: [`TerminalSession`](https://github.com/termux/termux-app/blob/master/terminal-emulator/src/main/java/com/termux/terminal/TerminalSession.java)/[`TermuxSession`](https://github.com/termux/termux-app/blob/master/termux-shared/src/main/java/com/termux/shared/termux/shell/command/runner/terminal/TermuxSession.java)
+- `liblocal-socket.so`: [`Local*Socket*`](https://github.com/termux/termux-app/tree/master/termux-shared/src/main/java/com/termux/shared/net/socket/local)/[`AmSocketServer`](https://github.com/termux/termux-app/blob/master/termux-shared/src/main/java/com/termux/shared/shell/am/AmSocketServer.java)
 
 ```
 android {
     packagingOptions {
-        // Remove terminal-emulator JNI libs added via termux-shared dependency
+        // Remove terminal-emulator and termux-shared JNI libs added via termux-shared dependency
         exclude 'lib/*/libtermux.so'
+        exclude 'lib/*/liblocal-socket.so'
     }
 }
 ```
