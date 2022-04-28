@@ -3,8 +3,8 @@ Support for android 5 and 6 was dropped on 2020-01-01.  The android-5 compatible
 **NOTE:** the main repository was updated in April 2022, and the repo re-signed with a different key that is mising from apt's trusted keys.  To be able to successfully use apt the latest termux-keyring needs to be downloaded and installed, with:
 
 ```
-curl -LO https://packages.termux.org/termux-main-21/dists/stable/main/binary-all/termux-keyring_1.2_all.deb
-dpkg -i ./termux-keyring_1.2_all.deb
+curl -LO https://packages.termux.org/termux-main-21/dists/stable/main/binary-all/termux-keyring_1.4_all.deb
+dpkg -i ./termux-keyring_1.4_all.deb
 ```
 
 All the repositories that was used for the android-5/6 version of the app have ceased to exist for different reasons since support was dropped.  To be able to use apt users need to change the repo urls in $PREFIX/etc/apt/sources.list and $PREFIX/etc/apt/sources.list.d/*.list. 
