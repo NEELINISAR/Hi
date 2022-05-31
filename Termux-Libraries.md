@@ -196,7 +196,7 @@ For updating and publishing the libraries locally, you need to follow the follow
 
 1. Firstly `git clone` the [`termux-app`] repo. Make whatever changes you need to make to [`termux-shared`] or other libraries. Then from the `root` directory of `termux-app`, run  `./gradlew publishReleasePublicationToMavenLocal`. This should build a release version of all the libraries and publish them locally. You can view the published files at `~/.m2/repository/com/termux/`. The version with which they are published will be defined by the `versionName` value in the `build.gradle` file.
 
-2. In the `root` level `build.gradle` file of the plugin, uncomment the `mavenLocal()` line or replace the `maven { url "https://jitpack.io" }` line with it.
+2. In the `root` level `build.gradle` file of the plugin, uncomment the `mavenLocal()` line so that local version of `termux-shared` that was published in `1` gets sourced. You should also keep the `maven { url "https://jitpack.io" }` line uncommented in case other jitpack dependencies need to be sourced remotely, that are not available locally.
 
 ```
 allprojects {
