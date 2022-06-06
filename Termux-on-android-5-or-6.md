@@ -1,15 +1,17 @@
-Support for android 5 and 6 was dropped on 2020-01-01.  The android-5 compatible apks are available from https://archive.org/details/termux-repositories-legacy as well as [F-Droid's archive repository](https://forum.f-droid.org/t/archive-repositories/10556).
+Support for android 5 and 6 was re-added to termux-app in beginning of 2022, but no support or package updates are planned.
 
-**NOTE:** the main repository was updated in April 2022, and the repo re-signed with a different key that is mising from apt's trusted keys.  To be able to successfully use apt the latest termux-keyring needs to be downloaded and installed, with:
+Until termux-app 0.119 is released users can install an apt-android-5 artifact from github CI builds: https://github.com/termux/termux-app/actions
+
+The updated, android-5 compatible app uses these repos:
 
 ```
-curl -LO https://packages.termux.org/termux-main-21/dists/stable/main/binary-all/termux-keyring_1.4_all.deb
-dpkg -i ./termux-keyring_1.4_all.deb
+deb https://packages.termux.dev/termux-main-21 stable main
+deb https://termux.dev/science-packages-21-bin science stable
+deb https://termux.dev/game-packages-21-bin games stable
+deb https://termux.dev/termux-root-packages-21-bin root stable
 ```
 
-All the repositories that was used for the android-5/6 version of the app have ceased to exist for different reasons since support was dropped.  To be able to use apt users need to change the repo urls in $PREFIX/etc/apt/sources.list and $PREFIX/etc/apt/sources.list.d/*.list. 
-
-The old URLs for all the repos were:
+while the old android-5 compatible app subscribed to:
 
 ```
 deb https://termux.net stable main
@@ -18,13 +20,4 @@ deb https://dl.bintray.com/grimler/game-packages-21 games stable
 deb https://dl.bintray.com/grimler/termux-root-packages-21 root stable
 ```
 
-and these can be changed to:
-
-```
-deb https://packages.termux.org/termux-main-21 stable main
-deb https://termux.org/science-packages-21-bin science stable
-deb https://termux.org/game-packages-21-bin games stable
-deb https://termux.org/termux-root-packages-21-bin root stable
-```
-
-after which termux on android-5/6 should be fully working (but with old package versions that will not receive any updates).
+All of which are down now.
