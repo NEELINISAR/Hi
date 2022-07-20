@@ -5,7 +5,7 @@
 	- [Importing Libraries From Jitpack](#jitpack)
 	- [Importing Libraries From Github Packages](#github-packages)
 - [ Remove Extra Dependency Files](#remove-extra-dependency-files)
-- [Target SDK `30` Package Visibility](#target-sdk-30-package-visibility)
+- [Target SDK 30 Package Visibility](#target-sdk-30-package-visibility)
 - [Forking and Local Development](#forking-and-local-development)
 ##
 
@@ -165,7 +165,7 @@ android {
 
 
 
-### Target SDK `30` Package Visibility
+### Target SDK 30 Package Visibility
 
 If your third-party app has set `targetSdkVersion` to `>=30` (android `>= 11`), then it needs to add `com.termux` package to the `queries` element or request `QUERY_ALL_PACKAGES` permission in its `AndroidManifest.xml`. Otherwise it will get `PackageSetting{...... com.termux/......} BLOCKED` errors in `logcat` when interacting with [`termux-app`], like with [`RUN_COMMAND` intent](https://github.com/termux/termux-app/wiki/RUN_COMMAND-Intent) and it will **not work**.
 
