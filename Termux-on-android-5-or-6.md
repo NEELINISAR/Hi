@@ -1,6 +1,6 @@
 Support for android 5 and 6 was [re-added](https://github.com/termux/termux-app/pull/2740) to termux-app in beginning of 2022, but no support or package updates are planned.
 
-Until termux-app 0.119 is released users can install an apt-android-5 artifact from github CI builds: https://github.com/termux/termux-app/actions/workflows/debug_build.yml?query=branch%3Amaster+
+Until termux-app 0.119 is released users can install an apt-android-5 artifact from github CI builds: https://github.com/termux/termux-app/actions/workflows/debug_build.yml?query=branch%3Amaster+event%3Apush
 
 The updated, android-5 compatible app uses these repos:
 
